@@ -1,4 +1,4 @@
-# Current state
+# Current state:
 ## Wine
 Version: 10.4
 
@@ -28,10 +28,10 @@ cd $HOME && rm -rf ~/xaw64 && wget https://github.com/ar37-rs/xaw64-wine/raw/ref
 ~/xaw64 install
 ```
 
-# Usage
+# Usage:
 Read more from [here](https://github.com/ar37-rs/xow64-wine)
 
-# Note
+# Note:
 Some commands and drivers might not available
 
 use virpipe for mali/powervr/etc or default native termux drivers (such freedreno for adreno).
