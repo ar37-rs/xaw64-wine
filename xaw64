@@ -243,7 +243,7 @@ else
 fi
 
 if [[ "$1" == "vkd3d-async=true" ]]; then
-    echo "extracting xow64_dxvk_proton_async.tar.xz..." && cd $TPH/xaw64_wine && tar -xf xow64_dxvk_proton.tar.xz && mv $TPH/xaw64_wine/.xow64_wine $TPH/xaw64_wine/.xaw64_wine && cd && cp -r $TPH/xaw64_wine/.xaw64_wine $TPH/ && rm -rf $TPH/xaw64_wine/.xaw64_wine
+    echo "extracting xow64_dxvk_proton_async.tar.xz..." && cd $TPH/xaw64_wine && tar -xf xow64_dxvk_proton_async.tar.xz && mv $TPH/xaw64_wine/.xow64_wine $TPH/xaw64_wine/.xaw64_wine && cd && cp -r $TPH/xaw64_wine/.xaw64_wine $TPH/ && rm -rf $TPH/xaw64_wine/.xaw64_wine
     
 else
     echo "extracting xow64_dxvk_proton.tar.xz..." && cd $TPH/xaw64_wine && tar -xf xow64_dxvk_proton.tar.xz && mv $TPH/xaw64_wine/.xow64_wine $TPH/xaw64_wine/.xaw64_wine && cd && cp -r $TPH/xaw64_wine/.xaw64_wine $TPH/ && rm -rf $TPH/xaw64_wine/.xaw64_wine
