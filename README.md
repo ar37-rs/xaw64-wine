@@ -29,7 +29,7 @@ cd $HOME && rm -rf ~/xaw64 && wget https://github.com/ar37-rs/xaw64-wine/raw/ref
 ```
 
 # Usage:
-Read more from [here](https://github.com/ar37-rs/xow64-wine)
+Read more from [here](https://github.com/ar37-rs/xow64-wine) and make sure use ```~/xaw64``` instead of ```~/xow64```
 
 # Note:
 Some commands and drivers might not available
