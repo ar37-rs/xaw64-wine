@@ -476,6 +476,39 @@ elif [[ "$1" == "vgl-use=angle" ]]; then
     $TPH/xaw64_drivers/vglx use-angle
 elif [[ "$1" == "vgl-use=android" ]]; then
     $TPH/xaw64_drivers/vglx use-android
+elif [[ "$1" == "gpucaps" ]]; then
+    GPUCAPS=$TPH/${WPREFIX}/drive_c/ProgramData/GpuCaps
+    if [ -f $TPH/xaw64_drivers/.virgl ]; then
+        cd $GPUCAPS
+        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine GpuCaps.exe
+    else
+        cd $GPUCAPS && ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine GpuCaps.exe
+    fi
+elif [[ "$1" == "testd3d" ]]; then
+    if [ -f $TPH/xaw64_drivers/.virgl ]; then
+        cd $TPH/${WPREFIX} && cd 'drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs'
+        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine TestD3D.exe
+    else
+        cd $TPH/${WPREFIX} && cd 'drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs' && ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine TestD3D.exe
+    fi
+ elif [[ "$1" == "cubemap" ]]; then
+    CUBEMAP=$TPH/${WPREFIX}/drive_c/ProgramData/EnvMapping
+    
+    if [ -f $TPH/xaw64_drivers/.virgl ]; then
+        cd $CUBEMAP
+        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine CubeMap.exe
+    else
+        cd $CUBEMAP && ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine CubeMap.exe
+    fi
+elif [[ "$1" == "spheremap" ]]; then
+    SHEREMAP=$TPH/${WPREFIX}/drive_c/ProgramData/EnvMapping
+    
+    if [ -f $TPH/xaw64_drivers/.virgl ]; then
+        cd $SHEREMAP
+        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine SphereMap.exe
+    else
+        cd $SHEREMAP && ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine SphereMap.exe
+    fi
 elif [[ "$1" == "r" ]]; then
     if [ -f $TPH/xaw64_drivers/.virgl ]; then
         $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine "${@:2}"
