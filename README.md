@@ -34,4 +34,4 @@ Read more from [here](https://github.com/ar37-rs/xow64-wine)
 # Note
 Some commands and drivers might not available
 
-use virpipe for mali/powervr/etc or default builtin termux drivers (such freedreno for adreno).
+use virpipe for mali/powervr/etc or default native termux drivers (such freedreno for adreno).
