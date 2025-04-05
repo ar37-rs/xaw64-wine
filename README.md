@@ -32,4 +32,4 @@ cd $HOME && rm -rf ~/xaw64 && wget https://github.com/ar37-rs/xaw64-wine/raw/ref
 Read more from [here](https://github.com/ar37-rs/xow64-wine)
 
 # Note
-Some commands and drivers might not available, just use default builtin termux drivers.
+Some commands and drivers might not available, use virpipe for mali/powervr/etc or default builtin termux drivers (such freedreno for adreno).
