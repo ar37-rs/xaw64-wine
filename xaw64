@@ -1,0 +1,271 @@
+XAW64_BOX64V=0.3.5
+WINE_VERSION=10.4-stable
+export WINEESYNC=1
+export LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib:$LD_LIBRARY_PATH
+export BOX64_PATH=~/xaw64_wine/bin:$BOX64_PATH
+export BOX64_RCFILE=~/xaw64_box64/etc/box64.box64rc
+export BOX64_LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib:~/xaw64_box64/lib:~/xaw64_wine/lib/wine/x86_64-unix:~/xaw64_wine/lib/wine/i386-windows:~/xaw64_wine/x86_64-windows:$BOX64_LD_LIBRARY_PATH
+export BOX64_MMAP32=1
+export BOX64_X11THREADS=1
+export BOX64_DYNAREC_SAFEFLAGS=2
+export TPH=/data/data/com.termux/files/home
+export WINEPREFIX=$TPH/.xaw64_wine
+echo "info:"
+echo "WINEPREFIX=${TPH}/.xaw64_wine"
+
+if [ -f $TPH/xaw64_wine/.no_debug ]; then
+    export WINEDEBUG=-all
+fi
+
+if [ ! -d $TPH/xaw64_wine ]; then
+    mkdir $TPH/xaw64_wine
+fi
+
+XAW64_WINEPREFIX=.xaw64_wine
+WPREFIX=$XAW64_WINEPREFIX
+
+
+wine_q() {
+    kill -9 $(pgrep -f ".exe") 2>/dev/null
+    kill -9 $(pgrep -f ".cmd") 2>/dev/null
+    kill -9 $(pgrep -f ".bat") 2>/dev/null
+}
+
+init_envirs() {
+    if [ -f $TPH/xaw64_wine/.envirs ]; then
+        ENVIR=$(cat $TPH/xaw64_wine/.envirs)
+        for i in $ENVIR
+        do
+        RIVNE=$(echo ${i#[} | rev | cut -c2- | rev)
+        export $RIVNE
+        done
+    fi
+}
+
+init_envirs
+elif [[ "$1" == "install" || "$1" == "update-all" ]]; then
+    wine_q
+    cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which libandroid-posix-semaphore libandroid-sysv-semaphore libandroid-spawn && echo "Installing and updating all xaw64 components..." && rm -rf $TPH/xaw64_box64-${XAW64_BOX64V}.tar.xz && rm -rf $TPH/xaw64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xaw64-wine/raw/refs/heads/main/components/xaw64_box64-${XAW64_BOX64V}.tar.xz && echo "extracting xaw64_box64-${XAW64_BOX64V}.tar.xz..." && tar -xf $TPH/xaw64_box64-${XAW64_BOX64V}.tar.xz && rm -rf $TPH/xaw64_box64-${XAW64_BOX64V}.tar.xz && wget https://github.com/ar37-rs/xaw64-wine/releases/download/latest/xaw64_wine_patch.tar.xz && echo "extracting xaw64_wine_patch.tar.xz..." && tar -xf $TPH/xaw64_wine_patch.tar.xz && rm -rf $TPH/xaw64_wine_patch.tar.xz && cd && rm -rf $TPH/xaw64-wine-${WINE_VERSION}.tar.xz && cd && wget https://github.com/ar37-rs/xaw64-wine/releases/download/latest/xaw64-wine-${WINE_VERSION}.tar.xz && echo "extracting xaw64-wine-${WINE_VERSION}.tar.xz..." && tar -xf $TPH/xaw64-wine-${WINE_VERSION}.tar.xz && rm -rf $TPH/xaw64-wine-${WINE_VERSION}.tar.xz && echo " " && echo "Downloading wined3d components..." && cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xaw64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xaw64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xaw64_wine/wined3d-${WINE_VERSION}.tar.xz
+    echo "done."
+elif [[ "$1" == "env-add" ]]; then
+    if [[ $2 =~ [a-zA-Z0-9]+$ ]]; then
+        ENVIR=
+        if [[ -f $TPH/xaw64_wine/.envirs ]]; then
+            ENVIR=$(cat $TPH/xaw64_wine/.envirs)
+            rm -rf $TPH/xaw64_wine/.envirs
+        fi
+
+        for i in $ENVIR
+        do
+            RIVNE=$(echo ${i#[} | rev | cut -c2- | rev)
+            if [[ $2 != $RIVNE ]]; then
+            
+cd && cat << EOF >> $TPH/xaw64_wine/.envirs
+[${RIVNE}]
+EOF
+            fi
+        done
+        cd && cat << EOF >> $TPH/xaw64_wine/.envirs
+[${2}]
+EOF
+        echo "the new specific environment variable:"
+        echo
+        echo "${2}"
+        echo
+        echo "has been added."
+    else
+        echo "invalid environment variable: ${2}."
+    fi
+elif [[ "$1" == "env-remove" ]]; then
+    if [[ $2 =~ [a-zA-Z0-9]+$ && -f $TPH/xaw64_wine/.envirs ]]; then
+        ENVIR=$(cat $TPH/xaw64_wine/.envirs)
+        rm -rf $TPH/xaw64_wine/.envirs
+        for i in $ENVIR
+        do
+            RIVNE=$(echo ${i#[} | rev | cut -c2- | rev)
+            if [[ $2 != $RIVNE ]]; then
+            
+cd && cat << EOF >> $TPH/xaw64_wine/.envirs
+[${RIVNE}]
+EOF
+            fi
+        done
+        echo "the specific environment variable:"
+        echo
+        echo "${2}"
+        echo
+        echo "${2} has been removed." 
+    
+    else
+        echo "the specific environment variable not found."
+    fi
+elif [[ "$1" == "env-info" ]]; then
+    if [ -f $TPH/xaw64_wine/.envirs ]; then
+        echo "list of environment variable/s added:"
+        echo
+        ENVIR=$(cat $TPH/xaw64_wine/.envirs)
+        for i in $ENVIR
+        do
+        RIVNE=$(echo ${i#[} | rev | cut -c2- | rev)
+        echo $RIVNE
+        done
+        echo " "
+    else
+        echo "no environment variables added yet."
+    fi   
+elif [[ "$1" == "env-default" ]]; then
+    if [ -f $TPH/xaw64_wine/.envirs ]; then
+        rm -rf $TPH/xaw64_wine/.envirs
+    fi
+    echo "environment variables changed to default."
+elif [[ $1 == "q" ]]; then
+    wine_q
+    "terminating wine..."
+elif [[ $1 == "s" ]]; then
+        if [ -f $TPH/xaw64_wine/.desk-size ]; then
+        DESK_SIZE=$(cat $TPH/xaw64_wine/.desk-size)
+        if [[ $DESK_SIZE == "" ]]; then
+            DESK_SIZE=800x600
+        fi
+    else
+        DESK_SIZE=800x600
+    fi
+    if [ -f $TPH/xaw64_drivers/.virgl ]; then
+        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine explorer /desktop=shell,800x600
+    else
+        ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine explorer /desktop=shell,800x600
+    fi
+elif [[ "$1" == "driver=virpipe" ]]; then
+    if [ -f $TPH/xaw64_drivers/.panfrost ]; then
+        rm -rf $TPH/xaw64_drivers/.panfrost
+    fi
+    if [ -f $TPH/xaw64_drivers/.panthor ]; then
+        rm -rf $TPH/xaw64_drivers/.panthor
+    fi
+    if [ ! -d $TPH/xaw64_drivers ]; then
+        mkdir $TPH/xaw64_drivers
+    fi
+    
+        if [ ! -f $TPH/xaw64_drivers/virglrenderer_1.1.0-latest_aarch64.deb ]; then
+            cd && rm -rf $TPH/virglrenderer_1.1.0-latest_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/virglrenderer_1.1.0-latest_aarch64.deb && mv $TPH/virglrenderer_1.1.0-latest_aarch64.deb $TPH/xaw64_drivers/virglrenderer_1.1.0-latest_aarch64.deb
+        fi
+
+        if [ ! -f $TPH/xaw64_drivers/angle-android_2.1.2-latest.deb ]; then
+             cd && rm -rf $TPH/angle-android_2.1.2-latest.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/angle-android_2.1.2-latest.deb && mv $TPH/angle-android_2.1.2-latest.deb $TPH/xaw64_drivers/angle-android_2.1.2-latest.deb
+        fi
+
+        if [ ! -f $TPH/xaw64_drivers/vglx ]; then
+            cd && rm -rf $TPH/vglx && wget https://github.com/ar37-rs/xaw64-wine/releases/download/latest/vglx && chmod +x $TPH/vglx && mv $TPH/vglx $TPH/xaw64_drivers/vglx
+        fi
+
+    if [ ! -f $TPH/xaw64_drivers/.virgl ]; then
+        touch $TPH/xaw64_drivers/.virgl
+    fi
+
+
+    $TPH/xaw64_drivers/vglx q
+    if [ ! -f $PREFIX/opt/angle-android/vulkan/libEGL_angle.so ]; then 
+        echo "Installing angle-android with vulkan validation layer..."
+        dpkg -i $TPH/xaw64_drivers/angle-android_2.1.2-latest.deb
+        echo "angle-android is installed"
+    fi
+    if [ ! -f $PREFIX/bin/virgl_test_server ]; then
+       echo "Installing virgl..."
+       dpkg -i $TPH/xaw64_drivers/virglrenderer_1.1.0-latest_aarch64.deb
+       echo "virglrenderer is installed"
+    fi
+    $TPH/xaw64_drivers/vglx cd .
+    echo "using virpipe driver"
+elif [[ "$1" == "driver=default" ]]; then
+    if [ -f $TPH/xaw64_drivers/.virgl ]; then
+        rm -rf $TPH/xaw64_drivers/.virgl
+    fi
+    if [ -f $TPH/xaw64_drivers/.panfrost ]; then
+        rm -rf $TPH/xaw64_drivers/.panfrost
+    fi
+    if [ -f $TPH/xaw64_drivers/.panthor ]; then
+        rm -rf $TPH/xaw64_drivers/.panthor
+    fi
+    echo "using default OpenGL/ES driver."
+elif [[ "$1" == "debug=true" ]]; then
+    if [ -f $TPH/xaw64_wine/.no_debug ]; then
+        rm -rf $TPH/xaw64_wine/.no_debug
+    fi
+    echo "Wine debugger enabled."
+elif [[ "$1" == "debug=false" ]]; then
+    touch $TPH/xaw64_wine/.no_debug
+    echo "Wine debugger disabled."
+elif [[ "$1" == "remove-all" ]]; then
+    wine_q
+    echo "xaw64 will be removed in 7 seconds..." && sleep 2 && echo "xaw64 will be removed in 6 seconds..." && sleep 1 && clear && echo "xaw64 will be removed in 5 seconds..." && sleep 1 && clear && echo "xaw64 will be removed in 4 seconds..." && sleep 1 && clear && echo "xaw64 will be removed in 3 seconds..." && sleep 1 && clear && echo "xaw64 will be removed in 2 seconds..." && sleep 1 && clear && echo "xaw64 will be removed in 1 second..." && sleep 1 && clear && echo "xaw64 will be removed in 0 second..." && sleep 1 && clear
+    echo "removing .xaw64_wine..."
+    rm -rf $TPH/.xaw64_wine
+    rm -rf ~/.xaw64_wine
+    echo "removing xaw64_wine..."
+    rm -rf $TPH/xaw64_wine
+    rm -rf ~/xaw64_wine
+    echo "removing xaw64_box64..."
+    rm -rf $TPH/xaw64_box64
+    rm -rf ~/xaw64_box64
+    echo "removing xaw64_drivers..."
+    rm -rf $TPH/xaw64_drivers
+    echo "removing xaw64_prefix..."
+    rm -rf ~/xaw64_prefix
+    echo "done."
+elif [[ $1 == desk-size=[A-Za-z0-9]* ]]; then
+    wine_q
+    if [[ ! $1 == desk-size=[0-9]*[0-9]x[0-9]*[0-9] ]]; then
+        echo "incorrect desktop size it contains unmatched ${1}"
+        exit
+    fi
+    
+    DSK_SIZE=${1#desk-size=}
+
+    if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+        $EXEX $BOX64X $TPH/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
+    fi
+
+    if [ -f $TPH/${WPREFIX}/user.reg ]; then
+
+        sed -i '/Default"="[a-zA-Z0-9]*x[a-zA-Z0-9]*/d' $TPH/${WPREFIX}/user.reg
+
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Explorer\\\Desktops]
+"Default"="${DSK_SIZE}"
+EOF
+    echo "${DSK_SIZE}" > $TPH/xaw64_wine/.desk-size
+    echo "desktop size has been configured to ${DSK_SIZE}"
+    fi
+elif [[ "$1" == "vgl-compat=2.1" ]]; then
+    $TPH/xaw64_drivers/vglx 2.1COMPAT
+elif [[ "$1" == "vgl-compat=3.2" ]]; then
+    $TPH/xaw64_drivers/vglx 3.2COMPAT
+elif [[ "$1" == "vgl-compat=3.3" ]]; then
+    $TPH/xaw64_drivers/vglx 3.3COMPAT
+elif [[ "$1" == "vgl-compat=4.1" ]]; then
+    $TPH/xaw64_drivers/vglx 4.1COMPAT
+elif [[ "$1" == "vgl-compat=4.3" ]]; then
+    $TPH/xaw64_drivers/vglx 4.3COMPAT
+elif [[ "$1" == "vgl-cfg=d3d" ]]; then
+    $TPH/xaw64_drivers/vglx config=d3d
+elif [[ "$1" == "vgl-cfg=gl" ]]; then
+    $TPH/xaw64_drivers/vglx config=gl
+elif [[ "$1" == "vgl-use=angle" ]]; then
+    $TPH/xaw64_drivers/vglx use-angle
+elif [[ "$1" == "vgl-use=android" ]]; then
+    $TPH/xaw64_drivers/vglx use-android
+elif [[ "$1" == "r" ]]; then
+    if [ -f $TPH/xaw64_drivers/.virgl ]; then
+        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine "${@:2}"
+    else
+        ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine "${@:2}"
+    fi
+else
+echo "Command not found"
+echo "Please input the correct available command"
+echo "Read for more info from here:"
+echo "https://github.com/ar37-rs/xaw64-wine"
+echo "Or try running simple program:"
+echo "wine r app_name.exe"
+echo
+fi
