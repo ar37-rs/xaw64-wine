@@ -166,8 +166,8 @@ elif [[ "$1" == "driver=virpipe" ]]; then
         mkdir $TPH/xaw64_drivers
     fi
     
-        if [ ! -f $TPH/xaw64_drivers/virglrenderer_1.1.0-latest_aarch64.deb ]; then
-            cd && rm -rf $TPH/virglrenderer_1.1.0-latest_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/virglrenderer_1.1.0-latest_aarch64.deb && mv $TPH/virglrenderer_1.1.0-latest_aarch64.deb $TPH/xaw64_drivers/virglrenderer_1.1.0-latest_aarch64.deb
+        if [ ! -f $TPH/xaw64_drivers/virglrenderer_1.1.1-latest_aarch64.deb ]; then
+            cd && rm -rf $TPH/virglrenderer_1.1.1-latest_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/virglrenderer_1.1.1-latest_aarch64.deb && mv $TPH/virglrenderer_1.1.1-latest_aarch64.deb $TPH/xaw64_drivers/virglrenderer_1.1.1-latest_aarch64.deb
         fi
 
         if [ ! -f $TPH/xaw64_drivers/angle-android_2.1.2-latest.deb ]; then
@@ -191,7 +191,7 @@ elif [[ "$1" == "driver=virpipe" ]]; then
     fi
     if [ ! -f $PREFIX/bin/virgl_test_server ]; then
        echo "Installing virgl..."
-       dpkg -i $TPH/xaw64_drivers/virglrenderer_1.1.0-latest_aarch64.deb
+       dpkg -i $TPH/xaw64_drivers/virglrenderer_1.1.1-latest_aarch64.deb
        echo "virglrenderer is installed"
     fi
     $TPH/xaw64_drivers/vglx cd .
@@ -206,9 +206,9 @@ elif [[ "$1" == "update-angle" ]]; then
     $TPH/xaw64_drivers/vglx cd .
 elif [[ "$1" == "update-virgl" ]]; then
     echo "Updating virglrenderer..."
-    cd && rm -rf $TPH/virglrenderer_1.1.0-latest_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/virglrenderer_1.1.0-latest_aarch64.deb && mv $TPH/virglrenderer_1.1.0-latest_aarch64.deb $TPH/xaw64_drivers/virglrenderer_1.1.0-latest_aarch64.deb && cd && rm -rf ~/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x ~/vglx && mv ~/vglx $TPH/xaw64_drivers/vglx
+    cd && rm -rf $TPH/virglrenderer_1.1.1-latest_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/virglrenderer_1.1.1-latest_aarch64.deb && mv $TPH/virglrenderer_1.1.1-latest_aarch64.deb $TPH/xaw64_drivers/virglrenderer_1.1.1-latest_aarch64.deb && cd && rm -rf ~/vglx && wget https://github.com/ar37-rs/xow64-wine/releases/download/latest/vglx && chmod +x ~/vglx && mv ~/vglx $TPH/xaw64_drivers/vglx
     echo "Installing virglrenderer..."
-    dpkg -i $TPH/xaw64_drivers/virglrenderer_1.1.0-latest_aarch64.deb
+    dpkg -i $TPH/xaw64_drivers/virglrenderer_1.1.1-latest_aarch64.deb
     echo "done."
 elif [[ "$1" == "driver=default" ]]; then
     if [ -f $TPH/xaw64_drivers/.virgl ]; then
