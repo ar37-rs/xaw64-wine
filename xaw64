@@ -1,7 +1,7 @@
 XAW64_BOX64V=0.3.5
 WINE_VERSION=10.4-stable
 export WINEESYNC=1
-export LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib:~/xaw64_wine/pulse:/system/lib64:$LD_LIBRARY_PATH
 export BOX64_PATH=~/xaw64_wine/bin:$BOX64_PATH
 export BOX64_RCFILE=~/xaw64_box64/etc/box64.box64rc
 export BOX64_LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib:~/xaw64_box64/lib:~/xaw64_wine/lib/wine/x86_64-unix:~/xaw64_wine/lib/wine/i386-windows:~/xaw64_wine/x86_64-windows:$BOX64_LD_LIBRARY_PATH
@@ -84,6 +84,23 @@ elif [[ "$1" == "install" || "$1" == "update-all" ]]; then
     cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which libandroid-posix-semaphore libandroid-sysv-semaphore libandroid-spawn && echo "Installing and updating all xaw64 components..." && rm -rf $TPH/xaw64_box64-${XAW64_BOX64V}.tar.xz && rm -rf $TPH/xaw64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xaw64-wine/raw/refs/heads/main/components/xaw64_box64-${XAW64_BOX64V}.tar.xz && echo "extracting xaw64_box64-${XAW64_BOX64V}.tar.xz..." && tar -xf $TPH/xaw64_box64-${XAW64_BOX64V}.tar.xz && rm -rf $TPH/xaw64_box64-${XAW64_BOX64V}.tar.xz && wget https://github.com/ar37-rs/xaw64-wine/releases/download/latest/xaw64_wine_patch.tar.xz && echo "extracting xaw64_wine_patch.tar.xz..." && tar -xf $TPH/xaw64_wine_patch.tar.xz && rm -rf $TPH/xaw64_wine_patch.tar.xz && cd && rm -rf $TPH/xaw64-wine-${WINE_VERSION}.tar.xz && cd && wget https://github.com/ar37-rs/xaw64-wine/releases/download/latest/xaw64-wine-${WINE_VERSION}.tar.xz && echo "extracting xaw64-wine-${WINE_VERSION}.tar.xz..." && tar -xf $TPH/xaw64-wine-${WINE_VERSION}.tar.xz && rm -rf $TPH/xaw64-wine-${WINE_VERSION}.tar.xz && echo " " && echo "Downloading wined3d components..." && cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xaw64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xaw64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xaw64_wine/wined3d-${WINE_VERSION}.tar.xz
     echo "done."
     dllsoverride
+elif [[ "$1" == "update-patch" ]]; then
+    wine_q
+    echo "Updating patch..."
+    cd && rm -rf $TPH/xaw64_wine_patch.tar.xz && wget https://github.com/ar37-rs/xaw64-wine/releases/download/latest/xaw64_wine_patch.tar.xz && echo "extracting xaw64_wine_patch.tar.xz..." && tar -xf $TPH/xaw64_wine_patch.tar.xz && rm -rf $TPH/xaw64_wine_patch.tar.xz
+    dllsoverride
+    echo "done."
+elif [[ "$1" == "update-wine" ]]; then
+    wine_q
+    echo "Updating wine ${WINE_VERSION}..."
+    cd && rm -rf $TPH/xaw64-wine-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xaw64-wine/releases/download/latest/xaw64-wine-${WINE_VERSION}.tar.xz && echo "extracting xaw64-wine-${WINE_VERSION}.tar.xz..." && tar -xf $TPH/xaw64-wine-${WINE_VERSION}.tar.xz && rm -rf $TPH/xaw64-wine-${WINE_VERSION}.tar.xz
+    dllsoverride
+    echo "done."
+elif [[ "$1" == "update-box64" ]]; then
+    wine_q
+    echo "Updating box64 ${XAW64_BOX64V}..."
+    cd && rm -rf $TPH/xaw64_box64-${XAW64_BOX64V}.tar.xz && wget https://github.com/ar37-rs/xaw64-wine/raw/refs/heads/main/components/xaw64_box64-${XAW64_BOX64V}.tar.xz && echo "extracting xaw64_box64-${XAW64_BOX64V}.tar.xz..." && tar -xf $TPH/xaw64_box64-${XAW64_BOX64V}.tar.xz && rm -rf $TPH/xaw64_box64-${XAW64_BOX64V}.tar.xz
+    echo "done."
 elif [[ "$1" == "env-add" ]]; then
     if [[ $2 =~ [a-zA-Z0-9]+$ ]]; then
         ENVIR=
