@@ -1,7 +1,10 @@
+#!/data/data/com.termux/files/usr/bin/bash
+unset LD_PRELOAD
+
 XAW64_BOX64V=0.3.5
 WINE_VERSION=10.4-stable
 export WINEESYNC=1
-export LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib:~/xaw64_wine/pulse:/system/lib64:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib:~/xaw64_wine/pulse:$LD_LIBRARY_PATH
 export BOX64_PATH=~/xaw64_wine/bin:$BOX64_PATH
 export BOX64_RCFILE=~/xaw64_box64/etc/box64.box64rc
 export BOX64_LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib:~/xaw64_box64/lib:~/xaw64_wine/lib/wine/x86_64-unix:~/xaw64_wine/lib/wine/i386-windows:~/xaw64_wine/x86_64-windows:$BOX64_LD_LIBRARY_PATH
