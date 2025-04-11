@@ -6,7 +6,7 @@ Version: 10.4
 Version: 0.3.5
 
 # Installation:
-([For termux-glibc users try XoW64](https://github.com/ar37-rs/xow64-wine))
+[(For termux-glibc users try XoW64)](https://github.com/ar37-rs/xow64-wine)
 ### Install desktop for native termux
 [(Read for more info on how to setup xfce4)](https://github.com/ar37-rs/xfce4-termux)
 
