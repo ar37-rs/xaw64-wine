@@ -12,7 +12,7 @@ Version: 0.3.5
 
 or
 
-[(using termux-desktop from here)](https://github.com/sabamdarif/termux-desktop/tree/main)
+[(Using termux-desktop from here)](https://github.com/sabamdarif/termux-desktop/tree/main)
 
 ### Make sure if wget is installed
 ```
