@@ -33,8 +33,8 @@ cd $HOME && rm -rf ~/xaw64 && wget https://github.com/ar37-rs/xaw64-wine/raw/ref
 Read more from [here](https://github.com/ar37-rs/xow64-wine) and make sure use ```~/xaw64``` instead of ```~/xow64```
 
 # Note:
-Use ```~/xaw64 r winecfg``` to add /sdcard (or specific path) for more custom drive
+* Use ```~/xaw64 r winecfg``` to add /sdcard (or specific path) for more custom drive
 
-Some commands (usage) and drivers might not available yet on xaw64, currently essentials commands are added and available
+* Some commands (usage) and drivers might not available yet on xaw64, currently essentials commands are added and available
 
-use virpipe for mali/powervr/etc or default native termux drivers (such freedreno for adreno).
+* Use virpipe for mali/powervr/etc or default native termux drivers (such freedreno for adreno).
