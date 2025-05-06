@@ -1,3 +1,10 @@
+# XaW64-Wine
+Wine-WoW64 Android + Box64 Android presetuped for termux native (aarch64)
+
+<img align="center" src="https://github.com/ar37-rs/xow64-wine/blob/main/components/PES2013.png">
+
+with minimal dependencies as possible and install only what needed.
+
 # Current state:
 ## Wine
 Version: 10.7
