@@ -5,7 +5,7 @@ Wine-WoW64 Android + Box64 Android presetuped for termux native (aarch64)
 
 with minimal dependencies as possible and install only what needed.
 
-# Current state:
+# Latest state:
 ## Wine
 Version: 10.7
 
