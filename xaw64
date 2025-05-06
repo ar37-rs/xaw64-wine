@@ -1,4 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
+# https://github.com/ar37-rs/xaw64-wine
 unset LD_PRELOAD
 
 XAW64_BOX64V=0.3.5
