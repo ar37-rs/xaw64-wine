@@ -274,7 +274,7 @@ Uninstall (remove) xaw64-wine completely
 
 * Some commands (usage) and drivers might not available yet on xaw64, currently essentials commands are added and available
 
-* Use virpipe for some low-end (mali/powervr/etc) GPUs or use vulkan wrapper for high-end mali GPUs or default native termux drivers such freedreno for adreno.
+* Use virpipe for some low-end (Mali/PowerVR/etc) GPUs with vulkan 1.1 or use vulkan wrapper for high-end Mali with vulkan 1.3+ GPUs or default native termux drivers such freedreno/KGSL for Adreno 6XX+.
 
 * Using virtual controller, install InputBrige
 
