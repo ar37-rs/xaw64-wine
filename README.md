@@ -1,6 +1,6 @@
 # Current state:
 ## Wine
-Version: 10.4
+Version: 10.7
 
 ## Box64
 Version: 0.3.5
