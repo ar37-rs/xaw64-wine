@@ -264,7 +264,7 @@ Update patch
 ~/xaw64 update-patch
 ```
 
-Uninstall (remove) xow64-wine completely
+Uninstall (remove) xaw64-wine completely
 ```
 ~/xaw64 remove-all
 ```
@@ -288,9 +288,9 @@ Uninstall (remove) xow64-wine completely
 
 * If experiencing any emulation issue for specific app/game
   
-    try using different version of box64, wine, configuration (especially box64 environment variables) and drivers available above accordingly.
+    try using different version of configurations (especially box64 environment variables) and drivers available above accordingly.
 
-* If there's problem when installing xow64, make sure the latest correct termux app version is installed.
+* If there's problem when installing xaw64, make sure the latest correct termux app version is installed.
 
   (tested using [termux-app-v0.119.0-beta.1](https://github.com/termux/termux-app/releases))
 
