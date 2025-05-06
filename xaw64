@@ -2,12 +2,13 @@
 unset LD_PRELOAD
 
 XAW64_BOX64V=0.3.5
-WINE_VERSION=10.4-stable
+WINE_VERSION=10.7-stable
+WINE_LATEST=$WINE_VERSION
 export WINEESYNC=1
 export LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib:~/xaw64_wine/pulse:$LD_LIBRARY_PATH
-export BOX64_PATH=~/xaw64_wine/bin:$BOX64_PATH
+export BOX64_PATH=~/xaw64_wine/${WINE_VERSION}/bin:$BOX64_PATH
 export BOX64_RCFILE=~/xaw64_box64/etc/box64.box64rc
-export BOX64_LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib:~/xaw64_box64/lib:~/xaw64_wine/lib/wine/x86_64-unix:~/xaw64_wine/lib/wine/i386-windows:~/xaw64_wine/x86_64-windows:$BOX64_LD_LIBRARY_PATH
+export BOX64_LD_LIBRARY_PATH=/data/data/com.termux/files/usr/lib:~/xaw64_box64/lib:~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-unix:~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows:~/xaw64_wine/x86_64-windows:$BOX64_LD_LIBRARY_PATH
 export BOX64_MMAP32=1
 export BOX64_DYNAREC_SAFEFLAGS=2
 export TPH=/data/data/com.termux/files/home
@@ -35,7 +36,7 @@ wine_q() {
 
 dllsoverride() {
     if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
-        ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine wineboot
+        ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
     fi
 
 if [ -f $TPH/${WPREFIX}/user.reg ]; then
@@ -65,6 +66,175 @@ init_envirs() {
 }
 
 init_envirs
+
+if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
+    echo "using wined3d version 3.21"
+elif [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
+    echo "using wined3d version 4.21"
+elif [ -f $TPH/xow64_wine/.wined3d-9.2 ]; then
+    echo "using wined3d version 9.2"
+fi
+
+wined3d_default() {
+if [ -f ~/xaw64_wine/.wine-version ]; then
+    WINE_VERSION=$(cat ~/xaw64_wine/.wine-version)
+    if [[ $WINE_VERSION == "" ]]; then
+        WINE_VERSION=$WINE_LATEST
+    fi
+else
+    WINE_VERSION=$WINE_LATEST
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/wined3d.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/wined3d.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/ddraw.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/ddraw.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/d3d8.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/d3d8.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/d3d9.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/d3d9.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/d3d10.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/d3d10.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/d3d10_1.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/d3d10_1.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/d3d10core.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/d3d10core.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/d3d11.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/syswow64/d3d11.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/wined3d.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/wined3d.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/ddraw.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/ddraw.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/d3d8.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/d3d8.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/d3d9.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/d3d9.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/d3d10.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/d3d10.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/d3d10_1.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/d3d10_1.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/d3d10core.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/d3d10core.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/d3d11.dll ]; then
+    cp ~/xaw64_wine/${WINE_VERSION}/.xaw64_wine/drive_c/windows/system32/d3d11.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+}
+
+
+wined3d_install() {
+if [ -f ~/xaw64_wine/.wine-version ]; then
+    WINE_VERSION=$(cat ~/xaw64_wine/.wine-version)
+    if [[ $WINE_VERSION == "" ]]; then
+        WINE_VERSION=$WINE_LATEST
+    fi
+else
+    WINE_VERSION=$WINE_LATEST
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/wined3d.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/wined3d.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows/wined3d.dll
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/libwine.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/libwine.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/ddraw.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/ddraw.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/d3d8.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/d3d8.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/d3d9.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/d3d9.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/d3d10.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/d3d10.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/d3d10_1.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/d3d10_1.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/d3d10core.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/d3d10core.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/d3d11.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/syswow64/d3d11.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/i386-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/wined3d.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/wined3d.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/libwine.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/libwine.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/ddraw.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/ddraw.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/d3d8.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/d3d8.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/d3d9.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/d3d9.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/d3d10.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/d3d10.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/d3d10_1.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/d3d10_1.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/d3d10core.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/d3d10core.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+
+if [ -f ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/d3d11.dll ]; then
+    cp ~/xaw64_wine/.xaw64_wine/drive_c/windows/system32/d3d11.dll ~/xaw64_wine/${WINE_VERSION}/lib/wine/x86_64-windows
+fi
+}
+
+
 if [[ "$1" == "q" ]]; then
     wine_q
     echo "terminating wine..."
@@ -78,9 +248,9 @@ elif [[ "$1" == "s" ]]; then
         DESK_SIZE=800x600
     fi
     if [ -f $TPH/xaw64_drivers/.virgl ]; then
-        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine explorer /desktop=shell,800x600
+        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine explorer /desktop=shell,800x600
     else
-        ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine explorer /desktop=shell,800x600
+        ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine explorer /desktop=shell,800x600
     fi
 elif [[ "$1" == "install" || "$1" == "update-all" ]]; then
     wine_q
@@ -241,9 +411,239 @@ elif [[ "$1" == "driver=default" ]]; then
         rm -rf $TPH/xaw64_drivers/.panthor
     fi
     echo "using default OpenGL/ES driver."
+elif [[ "$1" == "wined3d=3.21" ]]; then
+    wine_q
+    WINE_VERSION=3.21
+    if [ ! -f $TPH/xaw64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xaw64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xaw64_wine/wined3d-${WINE_VERSION}.tar.xz
+    fi
+
+    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xaw64_wine && tar -xf wined3d-${WINE_VERSION}.tar.xz && mv .xow64_wine .xaw64_wine
+
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
+    wine_q
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\DllOverrides]
+"ddraw"="native,builtin"
+"d3d8"="native,builtin"
+"d3d9"="native,builtin"
+"d3d10core"="native,builtin"
+"d3d10_1"="native,builtin"
+"d3d11"="native,builtin"
+"libwine"="native,builtin"
+"wined3d"="native,builtin"
+EOF
+fi
+if [ -f $TPH/xaw64_wine/.dxvk-proton ]; then
+    rm -rf $TPH/xaw64_wine/.dxvk-proton
+fi
+if [ -f $TPH/xaw64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xaw64_wine/.wined3d-9.2
+fi
+if [ -f $TPH/xaw64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xaw64_wine/.wined3d-4.21
+fi
+
+wined3d_install
+cp -r $TPH/xaw64_wine/.xaw64_wine $TPH/ && rm -rf $TPH/xaw64_wine/.xaw64_wine
+
+touch $TPH/xaw64_wine/.wined3d-3.21
+echo
+echo "using wined3d version 3.21"
+elif [[ "$1" == "wined3d=4.21" ]]; then
+    wine_q
+    WINE_VERSION=4.21
+    if [ ! -f $TPH/xaw64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xaw64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xaw64_wine/wined3d-${WINE_VERSION}.tar.xz
+    fi
+
+    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xaw64_wine && tar -xf wined3d-${WINE_VERSION}.tar.xz && mv .xow64_wine .xaw64_wine
+
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
+    wine_q
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\DllOverrides]
+"d3d8"="native,builtin"
+"d3d9"="native,builtin"
+"d3d10core"="native,builtin"
+"d3d10_1"="native,builtin"
+"d3d11"="native,builtin"
+"wined3d"="native,builtin"
+"ddraw"="native,builtin"
+EOF
+fi
+if [ -f $TPH/xaw64_wine/.dxvk-proton ]; then
+    rm -rf $TPH/xaw64_wine/.dxvk-proton
+fi
+if [ -f $TPH/xaw64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xaw64_wine/.wined3d-3.21
+fi
+if [ -f $TPH/xaw64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xaw64_wine/.wined3d-9.2
+fi
+
+wined3d_install
+cp -r $TPH/xaw64_wine/.xaw64_wine $TPH/ && rm -rf $TPH/xaw64_wine/.xaw64_wine
+
+touch $TPH/xaw64_wine/.wined3d-4.21
+echo
+echo "using wined3d version 4.21"
+elif [[ "$1" == "wined3d=9.2" ]]; then
+    wine_q
+    WINE_VERSION=9.2
+    if [ ! -f $TPH/xaw64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xaw64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xaw64_wine/wined3d-${WINE_VERSION}.tar.xz
+    fi
+
+    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xaw64_wine && tar -xf wined3d-${WINE_VERSION}.tar.xz && mv .xow64_wine .xaw64_wine
+
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
+    wine_q
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\DllOverrides]
+"d3d8"="native,builtin"
+"d3d9"="native,builtin"
+"d3d10core"="native,builtin"
+"d3d10_1"="native,builtin"
+"d3d11"="native,builtin"
+"wined3d"="native,builtin"
+"ddraw"="native,builtin"
+EOF
+fi
+if [ -f $TPH/xaw64_wine/.dxvk-proton ]; then
+    rm -rf $TPH/xaw64_wine/.dxvk-proton
+fi
+if [ -f $TPH/xaw64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xaw64_wine/.wined3d-3.21
+fi
+if [ -f $TPH/xaw64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xaw64_wine/.wined3d-4.21
+fi
+
+wined3d_install
+cp -r $TPH/xaw64_wine/.xaw64_wine $TPH/ && rm -rf $TPH/xaw64_wine/.xaw64_wine
+
+touch $TPH/xaw64_wine/.wined3d-9.2
+echo
+echo "using wined3d version 9.2"
+elif [[ "$1" == "wined3d=default" ]]; then
+    wine_q
+    if [ ! -f $TPH/xaw64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz ]; then
+        echo "Reinstalling wined3d components..."
+        cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xaw64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xaw64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xaw64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
+    fi
+
+
+    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xaw64_wine/${WINE_VERSION} && tar -xf wined3d-${WINE_VERSION}.tar.xz && cd && cp -r $TPH/xaw64_wine/${WINE_VERSION}/.xaw64_wine $TPH/
+
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
+    wine_q
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/dxgi"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d8"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d9"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d10core"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/ddraw"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d10_1"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/d3d11"=/d' $TPH/${WPREFIX}/user.reg
+fi
+if [ -f $TPH/xaw64_wine/.dxvk-proton ]; then
+    rm -rf $TPH/xaw64_wine/.dxvk-proton
+fi
+if [ -f $TPH/xaw64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xaw64_wine/.wined3d-3.21
+fi
+if [ -f $TPH/xaw64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xaw64_wine/.wined3d-9.2
+fi
+if [ -f $TPH/xaw64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xaw64_wine/.wined3d-4.21
+fi
+wined3d_default
+cp -r $TPH/xaw64_wine/${WINE_VERSION}/.xaw64_wine $TPH/ && rm -rf $TPH/xaw64_wine/${WINE_VERSION}/.xaw64_wine
+echo
+echo "using default wined3d."
+elif [[ "$1" == "vkd3d-v1=true" || "$1" == "vkd3d-v1-async=true" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+
+wine_q
+
+if [[ "$1" == "vkd3d-v1-async=true" ]]; then
+    echo "Installing dxvk-proton (vkd3d-v1) async components..."
+    if [ ! -f $TPH/xaw64_wine/xow64_dxvk_v1_proton_async.tar.xz ]; then
+        cd && rm -rf $TPH/xow64_dxvk_v1_proton_async.tar.xz && rm -rf $TPH/xaw64_wine/xow64_dxvk_v1_proton_async.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_v1_proton_async.tar.xz && mv $TPH/xow64_dxvk_v1_proton_async.tar.xz $TPH/xaw64_wine/xow64_dxvk_v1_proton_async.tar.xz
+    fi
+else
+    if [ ! -f $TPH/xaw64_wine/xow64_dxvk_v1_proton.tar.xz ]; then
+        echo "Installing dxvk-proton (vkd3d-v1) components..."
+        cd && rm -rf $TPH/xow64_dxvk_v1_proton.tar.xz && wget https://github.com/ar37-rs/xow64-wine/raw/refs/heads/main/components/xow64_dxvk_v1_proton.tar.xz && mv $TPH/xow64_dxvk_v1_proton.tar.xz $TPH/xaw64_wine/xow64_dxvk_v1_proton.tar.xz
+    fi
+fi
+
+if [[ "$1" == "vkd3d-v1-async=true" ]]; then
+    echo "extracting xow64_dxvk_v1_proton_async.tar.xz..." && cd $TPH/xaw64_wine && tar -xf xow64_dxvk_v1_proton_async.tar.xz && mv .xow64_wine .xaw64_wine && cd && cp -r $TPH/xaw64_wine/.xaw64_wine $TPH/ && rm -rf $TPH/xaw64_wine/.xaw64_wine
+    
+else
+    echo "extracting xow64_dxvk_v1_proton.tar.xz..." && cd $TPH/xaw64_wine && tar -xf xow64_dxvk_v1_proton.tar.xz && mv .xow64_wine .xaw64_wine && cd && cp -r $TPH/xaw64_wine/.xaw64_wine $TPH/ && rm -rf $TPH/xaw64_wine/.xaw64_wine
+fi
+if [ -f $TPH/xaw64_wine/.wined3d-3.21 ]; then
+    rm -rf $TPH/xaw64_wine/.wined3d-3.21
+fi
+if [ -f $TPH/xaw64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xaw64_wine/.wined3d-9.2
+fi
+if [ -f $TPH/xaw64_wine/.wined3d-4.21 ]; then
+    rm -rf $TPH/xaw64_wine/.wined3d-4.21
+fi
+
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Volatile Environment]
+"DXVK_STATE_CACHE_PATH"="C:\\.dxvk"
+"DXVK_STATE_CACHE"="reset"
+"DXVK_ASYNC"="1"
+"DXVK_GPLASYNCCACHE"="1"
+
+[Software\\\Wine\\\DllOverrides]
+"di"="native,builtin"
+"dxgi"="native,builtin"
+"d3d8"="native,builtin"
+"d3d9"="native,builtin"
+"d3d10core"="native,builtin"
+"d3d11"="native,builtin"
+"d3d12"="native,builtin"
+"d3d12core"="native,builtin"
+EOF
+
+if [[ "$1" == "vkd3d-v1-async=true" ]]; then
+echo "dxvk-proton (vkd3d-v1) async is activated"
+else
+echo "dxvk-proton (vkd3d-v1) is activated"
+fi
+
+touch $TPH/xaw64_wine/.dxvk-proton
+fi
+
+echo "done."
 elif [[ "$1" == "vkd3d=true" || "$1" == "vkd3d-async=true" ]]; then
 if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
-    ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine wineboot
+    ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
 fi
 
 wine_q
@@ -273,6 +673,9 @@ if [ -f $TPH/xaw64_wine/.wined3d-3.21 ]; then
 fi
 if [ -f $TPH/xaw64_wine/.wined3d-4.21 ]; then
     rm -rf $TPH/xaw64_wine/.wined3d-4.21
+fi
+if [ -f $TPH/xaw64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xaw64_wine/.wined3d-9.2
 fi
 
 if [ -f $TPH/${WPREFIX}/user.reg ]; then
@@ -308,16 +711,16 @@ elif [[ "$1" == "vkd3d=false" || "$1" == "vkd3d-async=false" ]]; then
 
 wine_q
 
-    if [ ! -f $TPH/xaw64_wine/wined3d-${WINE_VERSION}.tar.xz ]; then
+    if [ ! -f $TPH/xaw64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz ]; then
         echo "Reinstalling wined3d components..."
-        cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xaw64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xaw64_wine/wined3d-${WINE_VERSION}.tar.xz
+        cd && rm -rf ~/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xaw64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv ~/wined3d-${WINE_VERSION}.tar.xz $TPH/xaw64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
     fi
 
 
-    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xaw64_wine && tar -xf wined3d-${WINE_VERSION}.tar.xz && cd && cp -r $TPH/xaw64_wine/.xaw64_wine $TPH/ && rm -rf $TPH/xaw64_wine/.xaw64_wine
+    echo "extracting wined3d-${WINE_VERSION}.tar.xz..." && cd $TPH/xaw64_wine/${WINE_VERSION} && tar -xf wined3d-${WINE_VERSION}.tar.xz && cd && cp -r $TPH/xaw64_wine/${WINE_VERSION}/.xaw64_wine $TPH/ && rm -rf $TPH/xaw64_wine/${WINE_VERSION}/.xaw64_wine
 
 if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
-    ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine wineboot
+    ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
     wine_q
 fi
 if [ -f $TPH/${WPREFIX}/user.reg ]; then
@@ -338,6 +741,9 @@ fi
 if [ -f $TPH/xaw64_wine/.wined3d-4.21 ]; then
     rm -rf $TPH/xaw64_wine/.wined3d-4.21
 fi
+if [ -f $TPH/xaw64_wine/.wined3d-9.2 ]; then
+    rm -rf $TPH/xaw64_wine/.wined3d-9.2
+fi
 
 echo "done."
 if [[ "$1" == "vkd3d-async=false" ]]; then
@@ -347,7 +753,7 @@ echo "dxvk-proton (vkd3d) is deactivated"
 fi
 elif [[ "$1" == "device=gtx950m" ]]; then
 if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
-    ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine wineboot
+    ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
 fi
 
 wine_q
@@ -362,7 +768,7 @@ echo "using custom (GeForce GTX 950M) device id"
 fi
 elif [[ "$1" == "device=gtx980" ]]; then
 if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
-    ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine wineboot
+    ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
 fi
 
 wine_q
@@ -377,7 +783,7 @@ echo "using custom (GeForce GTX 980) device id"
 fi
 elif [[ "$1" == "device=uhd630" ]]; then
 if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
-    ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine wineboot
+    ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
 fi
 
 wine_q
@@ -392,7 +798,7 @@ echo "using custom (UHD Graphics 630) device id"
 fi
 elif [[ "$1" == "device=default" ]]; then
 if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
-    ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine wineboot
+    ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
 fi
 
 wine_q
@@ -405,7 +811,7 @@ fi
 echo "using default device id"
 elif [[ "$1" == "cnc-ddraw=true" ]]; then
 if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
-    ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine wineboot
+    ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
 fi
 
 wine_q
@@ -421,7 +827,7 @@ echo "winedlloverride for cnc-ddraw is activated."
 fi
 elif [[ "$1" == "cnc-ddraw=false" ]]; then
 if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
-    ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine wineboot
+    ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
 fi
 if [ -f $TPH/${WPREFIX}/user.reg ]; then
    wine_q
@@ -464,7 +870,7 @@ elif [[ $1 == desk-size=[A-Za-z0-9]* ]]; then
     DSK_SIZE=${1#desk-size=}
 
     if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
-        ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine wineboot
+        ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
     fi
 
     if [ -f $TPH/${WPREFIX}/user.reg ]; then
@@ -500,40 +906,40 @@ elif [[ "$1" == "gpucaps" ]]; then
     GPUCAPS=$TPH/${WPREFIX}/drive_c/ProgramData/GpuCaps
     if [ -f $TPH/xaw64_drivers/.virgl ]; then
         cd $GPUCAPS
-        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine GpuCaps.exe
+        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine GpuCaps.exe
     else
-        cd $GPUCAPS && ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine GpuCaps.exe
+        cd $GPUCAPS && ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine GpuCaps.exe
     fi
 elif [[ "$1" == "testd3d" ]]; then
     if [ -f $TPH/xaw64_drivers/.virgl ]; then
         cd $TPH/${WPREFIX} && cd 'drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs'
-        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine TestD3D.exe
+        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine TestD3D.exe
     else
-        cd $TPH/${WPREFIX} && cd 'drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs' && ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine TestD3D.exe
+        cd $TPH/${WPREFIX} && cd 'drive_c/ProgramData/Microsoft/Windows/Start Menu/Programs' && ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine TestD3D.exe
     fi
  elif [[ "$1" == "cubemap" ]]; then
     CUBEMAP=$TPH/${WPREFIX}/drive_c/ProgramData/EnvMapping
     
     if [ -f $TPH/xaw64_drivers/.virgl ]; then
         cd $CUBEMAP
-        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine CubeMap.exe
+        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine CubeMap.exe
     else
-        cd $CUBEMAP && ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine CubeMap.exe
+        cd $CUBEMAP && ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine CubeMap.exe
     fi
 elif [[ "$1" == "spheremap" ]]; then
     SHEREMAP=$TPH/${WPREFIX}/drive_c/ProgramData/EnvMapping
     
     if [ -f $TPH/xaw64_drivers/.virgl ]; then
         cd $SHEREMAP
-        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine SphereMap.exe
+        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine SphereMap.exe
     else
-        cd $SHEREMAP && ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine SphereMap.exe
+        cd $SHEREMAP && ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine SphereMap.exe
     fi
 elif [[ "$1" == "r" ]]; then
     if [ -f $TPH/xaw64_drivers/.virgl ]; then
-        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine "${@:2}"
+        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine "${@:2}"
     else
-        ~/xaw64_box64/bin/box64 ~/xaw64_wine/bin/wine "${@:2}"
+        ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine "${@:2}"
     fi
 else
 echo "Command not found"
