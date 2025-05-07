@@ -303,7 +303,7 @@ Uninstall (remove) xaw64-wine completely
 
 * If there's problem when installing xaw64, make sure the latest correct termux app version is installed.
 
-  (tested using [termux-app-v0.119.0-beta.1](https://github.com/termux/termux-app/releases))
+  (tested using [termux-app-v0.119.x](https://github.com/termux/termux-app/releases))
 
 # Addtional guide:
 * Using cnc-ddraw:
