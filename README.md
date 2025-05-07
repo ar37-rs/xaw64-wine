@@ -1,8 +1,6 @@
 # XaW64-Wine
 Wine-WoW64 Android + Box64 Android presetuped for termux native (aarch64)
 
-<img align="center" src="https://github.com/ar37-rs/xow64-wine/blob/main/components/PES2013.png">
-
 with minimal dependencies as possible and install only what needed.
 
 # Latest state:
@@ -282,6 +280,7 @@ Uninstall (remove) xaw64-wine completely
 ```
 
 # Note:
+* Bionic currently a little buggy, PES2013 doesn't work and probably many others. working games tested CMR2, NFS MW 2005 with good performance.
 * Use ```~/xaw64 r winecfg``` to add /sdcard (or specific path) for more custom drive
 
 * Some commands (usage) and drivers might not available yet on xaw64, currently essentials commands are added and available
