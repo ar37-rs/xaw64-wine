@@ -67,7 +67,12 @@ init_envirs() {
 }
 
 init_envirs
-
+kx11pls() {
+    kill -9 $(pgrep -f "termux.x11") 2>/dev/null
+    kill -9 $(pgrep -f "virgl_test_server_android") 2>/dev/null
+    kill -9 $(pgrep -f "virgl_test_server") 2>/dev/null
+    kill -9 $(pgrep -f "pulseaudio") 2>/dev/null
+}
 if [ -f $TPH/xow64_wine/.wined3d-3.21 ]; then
     echo "using wined3d version 3.21"
 elif [ -f $TPH/xow64_wine/.wined3d-4.21 ]; then
@@ -266,7 +271,7 @@ if [[ "$1" == "q" ]]; then
     wine_q
     echo "terminating wine..."
 elif [[ "$1" == "s" ]]; then
-        if [ -f $TPH/xaw64_wine/.desk-size ]; then
+    if [ -f $TPH/xaw64_wine/.desk-size ]; then
         DESK_SIZE=$(cat $TPH/xaw64_wine/.desk-size)
         if [[ $DESK_SIZE == "" ]]; then
             DESK_SIZE=800x600
@@ -275,13 +280,44 @@ elif [[ "$1" == "s" ]]; then
         DESK_SIZE=800x600
     fi
     if [ -f $TPH/xaw64_drivers/.virgl ]; then
-        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine explorer /desktop=shell,800x600
+        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine explorer /desktop=shell,$DESK_SIZE
     else
-        ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine explorer /desktop=shell,800x600
+        ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine explorer /desktop=shell,$DESK_SIZE
+    fi
+elif [[ "$1" == "qsd" ]]; then
+    echo "quitting wine desktop..."
+    am broadcast -a com.termux.x11.ACTION_STOP -p com.termux.x11
+    kx11pls
+elif [[ "$1" == "sd" ]]; then
+    am broadcast -a com.termux.x11.ACTION_STOP -p com.termux.x11
+    kx11pls
+    chmod 700 /data/data/com.termux/files/usr/tmp
+    export XDG_RUNTIME_DIR=${TMPDIR}
+
+    pulseaudio --start --load="module-native-protocol-tcp auth-ip-acl=127.0.0.1 auth-anonymous=1" --exit-idle-time=-1 &
+    sleep 1
+
+    termux-x11 -ac -once :0 &
+    sleep 1
+
+    am start --user 0 -n com.termux.x11/com.termux.x11.MainActivity
+    export DISPLAY=:0
+    if [ -f $TPH/xaw64_wine/.desk-size ]; then
+        DESK_SIZE=$(cat $TPH/xaw64_wine/.desk-size)
+        if [[ $DESK_SIZE == "" ]]; then
+            DESK_SIZE=1024x768
+        fi
+    else
+        DESK_SIZE=1024x768
+    fi
+    if [ -f $TPH/xaw64_drivers/.virgl ]; then
+        $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine explorer /desktop=shell,$DESK_SIZE
+    else
+        ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine explorer /desktop=shell,$DESK_SIZE
     fi
 elif [[ "$1" == "install" || "$1" == "update-all" ]]; then
     wine_q
-    cd && pkg update && pkg install tar virglrenderer angle-android openssl wget which libandroid-posix-semaphore libandroid-sysv-semaphore libandroid-spawn && echo "Installing and updating all xaw64 components..." && rm -rf $TPH/xaw64_box64-${XAW64_BOX64V}.tar.xz && rm -rf $TPH/xaw64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xaw64-wine/raw/refs/heads/main/components/xaw64_box64-${XAW64_BOX64V}.tar.xz && echo "extracting xaw64_box64-${XAW64_BOX64V}.tar.xz..." && tar -xf $TPH/xaw64_box64-${XAW64_BOX64V}.tar.xz && rm -rf $TPH/xaw64_box64-${XAW64_BOX64V}.tar.xz && wget https://github.com/ar37-rs/xaw64-wine/releases/download/latest/xaw64_wine_patch.tar.xz && echo "extracting xaw64_wine_patch.tar.xz..." && tar -xf $TPH/xaw64_wine_patch.tar.xz && rm -rf $TPH/xaw64_wine_patch.tar.xz && cd && rm -rf $TPH/xaw64-wine-${WINE_VERSION}.tar.xz && cd && wget https://github.com/ar37-rs/xaw64-wine/releases/download/latest/xaw64-wine-${WINE_VERSION}.tar.xz && echo "extracting xaw64-wine-${WINE_VERSION}.tar.xz..." && tar -xf $TPH/xaw64-wine-${WINE_VERSION}.tar.xz && rm -rf $TPH/xaw64-wine-${WINE_VERSION}.tar.xz && echo " " && echo "Downloading wined3d components..." && cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xaw64_wine/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xaw64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xaw64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
+    cd && pkg update && pkg install termux-api pulseaudio tar virglrenderer angle-android openssl wget which libandroid-posix-semaphore libandroid-sysv-semaphore libandroid-spawn && echo "Installing and updating all xaw64 components..." && rm -rf $TPH/xaw64_box64-${XAW64_BOX64V}.tar.xz && rm -rf $TPH/xaw64_wine_patch.tar.xz && cd && wget https://github.com/ar37-rs/xaw64-wine/raw/refs/heads/main/components/xaw64_box64-${XAW64_BOX64V}.tar.xz && echo "extracting xaw64_box64-${XAW64_BOX64V}.tar.xz..." && tar -xf $TPH/xaw64_box64-${XAW64_BOX64V}.tar.xz && rm -rf $TPH/xaw64_box64-${XAW64_BOX64V}.tar.xz && wget https://github.com/ar37-rs/xaw64-wine/releases/download/latest/xaw64_wine_patch.tar.xz && echo "extracting xaw64_wine_patch.tar.xz..." && tar -xf $TPH/xaw64_wine_patch.tar.xz && rm -rf $TPH/xaw64_wine_patch.tar.xz && cd && rm -rf $TPH/xaw64-wine-${WINE_VERSION}.tar.xz && cd && wget https://github.com/ar37-rs/xaw64-wine/releases/download/latest/xaw64-wine-${WINE_VERSION}.tar.xz && echo "extracting xaw64-wine-${WINE_VERSION}.tar.xz..." && tar -xf $TPH/xaw64-wine-${WINE_VERSION}.tar.xz && rm -rf $TPH/xaw64-wine-${WINE_VERSION}.tar.xz && echo " " && echo "Downloading wined3d components..." && cd && rm -rf $TPH/wined3d-${WINE_VERSION}.tar.xz && rm -rf $TPH/xaw64_wine/wined3d-${WINE_VERSION}.tar.xz && wget https://github.com/ar37-rs/xaw64-wine/raw/refs/heads/main/components/wined3d-${WINE_VERSION}.tar.xz && mv $TPH/wined3d-${WINE_VERSION}.tar.xz $TPH/xaw64_wine/${WINE_VERSION}/wined3d-${WINE_VERSION}.tar.xz
     echo "done."
     dllsoverride
 elif [[ "$1" == "update-patch" ]]; then
@@ -438,6 +474,58 @@ elif [[ "$1" == "driver=default" ]]; then
         rm -rf $TPH/xaw64_drivers/.panthor
     fi
     echo "using default OpenGL/ES driver."
+elif [[ "$1" == "sdcard=true" ]]; then
+    termux-setup-storage
+    echo "sdcard configured."
+    exit
+elif [[ "$1" == "wined3d=vk" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+wine_q
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Direct3D]
+"renderer"="vulkan"
+EOF
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/shader_backend"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/useGLSL"=/d' $TPH/${WPREFIX}/user.reg
+fi
+echo "Wined3d using Vulkan renderer"
+elif [[ "$1" == "wined3d=gl" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+wine_q
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Direct3D]
+"renderer"="gl"
+EOF
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/shader_backend"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/useGLSL"=/d' $TPH/${WPREFIX}/user.reg
+fi
+echo "Wined3d using OpenGL renderer"
+elif [[ "$1" == "wined3d=gdi" ]]; then
+if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
+    $EXEX $BOX64X $TPH/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
+fi
+wine_q
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Direct3D]
+"renderer"="gdi"
+EOF
+fi
+if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/shader_backend"=/d' $TPH/${WPREFIX}/user.reg
+   sed -i '/useGLSL"=/d' $TPH/${WPREFIX}/user.reg
+fi
+echo "Wined3d using GDI renderer"
 elif [[ "$1" == "wined3d=3.21" ]]; then
     wine_q
     WINE_VERSION=3.21
@@ -718,6 +806,9 @@ cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
 "d3d11"="native,builtin"
 "d3d12"="native,builtin"
 "d3d12core"="native,builtin"
+
+[Software\\\Wine\\\Direct3D]
+"renderer"="no3d"
 EOF
 
 if [[ "$1" == "vkd3d-v1-async=true" ]]; then
@@ -786,6 +877,9 @@ cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
 "d3d11"="native,builtin"
 "d3d12"="native,builtin"
 "d3d12core"="native,builtin"
+
+[Software\\\Wine\\\Direct3D]
+"renderer"="no3d"
 EOF
 
 if [[ "$1" == "vkd3d-async=true" ]]; then
@@ -815,6 +909,7 @@ if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
     wine_q
 fi
 if [ -f $TPH/${WPREFIX}/user.reg ]; then
+   sed -i '/renderer"=/d' $TPH/${WPREFIX}/user.reg
    sed -i '/wined3d"=/d' $TPH/${WPREFIX}/user.reg
    sed -i '/dxgi"=/d' $TPH/${WPREFIX}/user.reg
    sed -i '/d3d8"=/d' $TPH/${WPREFIX}/user.reg
