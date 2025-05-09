@@ -278,6 +278,15 @@ elif [[ "$1" == "s" ]]; then
         fi
     else
         DESK_SIZE=800x600
+        if [ -f $TPH/${WPREFIX}/user.reg ]; then
+
+            sed -i '/Default"="[a-zA-Z0-9]*x[a-zA-Z0-9]*/d' $TPH/${WPREFIX}/user.reg
+
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Explorer\\\Desktops]
+"Default"="${DESK_SIZE}"
+EOF
+        fi
     fi
     if [ -f $TPH/xaw64_drivers/.virgl ]; then
         $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine explorer /desktop=shell,$DESK_SIZE
@@ -309,6 +318,15 @@ elif [[ "$1" == "sd" ]]; then
         fi
     else
         DESK_SIZE=1024x768
+        if [ -f $TPH/${WPREFIX}/user.reg ]; then
+
+            sed -i '/Default"="[a-zA-Z0-9]*x[a-zA-Z0-9]*/d' $TPH/${WPREFIX}/user.reg
+
+cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
+[Software\\\Wine\\\Explorer\\\Desktops]
+"Default"="${DESK_SIZE}"
+EOF
+        fi
     fi
     if [ -f $TPH/xaw64_drivers/.virgl ]; then
         $TPH/xaw64_drivers/vglx ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine explorer /desktop=shell,$DESK_SIZE
@@ -1058,7 +1076,7 @@ elif [[ $1 == desk-size=[A-Za-z0-9]* ]]; then
         exit
     fi
     
-    DSK_SIZE=${1#desk-size=}
+    DESK_SIZE=${1#desk-size=}
 
     if [ ! -f $TPH/${WPREFIX}/user.reg ]; then
         ~/xaw64_box64/bin/box64 ~/xaw64_wine/${WINE_VERSION}/bin/wine wineboot
@@ -1070,10 +1088,10 @@ elif [[ $1 == desk-size=[A-Za-z0-9]* ]]; then
 
 cd && cat << EOF >> $TPH/${WPREFIX}/user.reg
 [Software\\\Wine\\\Explorer\\\Desktops]
-"Default"="${DSK_SIZE}"
+"Default"="${DESK_SIZE}"
 EOF
-    echo "${DSK_SIZE}" > $TPH/xaw64_wine/.desk-size
-    echo "desktop size has been configured to ${DSK_SIZE}"
+    echo "${DESK_SIZE}" > $TPH/xaw64_wine/.desk-size
+    echo "desktop size has been configured to ${DESK_SIZE}"
     fi
 elif [[ "$1" == "vgl-compat=2.1" ]]; then
     $TPH/xaw64_drivers/vglx 2.1COMPAT
