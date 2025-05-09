@@ -298,7 +298,7 @@ Uninstall (remove) xaw64-wine completely
 ```
 
 # Note:
-* Bionic currently a little buggy, PES2013 doesn't work and probably many others. working games tested CMR2, NFS MW 2005 with good performance.
+* Bionic currently a little buggy, working games tested CMR2, NFS MW 2005 with good performance.
 * Use ```~/xaw64 r winecfg``` to add /sdcard (or specific path) for more custom drive
 
 * Some commands (usage) and drivers might not available yet on xaw64, currently essentials commands are added and available
