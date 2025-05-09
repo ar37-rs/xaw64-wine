@@ -33,6 +33,23 @@ cd $HOME && rm -rf ~/xaw64 && wget https://github.com/ar37-rs/xaw64-wine/raw/ref
 ```
 ~/xaw64 install
 ```
+
+# Usage (inside termux terminal):
+Enable sdcard for wine D: drive (optional)
+```
+~/xaw64 sdcard=true
+```
+
+Start wine in desktop mode on termux terminal
+```
+~/xaw64 sd
+```
+
+Quit wine desktop or terminate all wine related process
+```
+~/xaw64 qsd
+```
+
 # Usage (inside desktop environment native termux):
 Run wine config
 ```
@@ -89,7 +106,8 @@ Quit wine or terminate all wine related process
 ~/xaw64 q
 ```
 
-# OpenGL/ES drivers:
+# Main Usage:
+### OpenGL/ES drivers:
 Using newer build of virgl (virpipe) driver
 
 (Universal android 9+ with vulkan 1.1+ GPU supported only)
@@ -136,7 +154,7 @@ Switch back OpenGL driver to default (if any)
 ~/xaw64 driver=default
 ```
 
-# Direct 3D support for OpenGL drivers:
+### Direct 3D support for OpenGL drivers:
 Using WineD3D version 3.21
 ```
 ~/xaw64 wined3d=3.21
@@ -166,7 +184,7 @@ Switch back using default builtin WineD3D version
 ~/xaw64 wined3d=default
 ```
 
-# Direct 3D support for vulkan drivers:
+### Direct 3D support for vulkan drivers:
 Using dxvk-proton (supported on vulkan llvmpipe and any supported GPU driver)  
 ```
 ~/xaw64 vkd3d=true
