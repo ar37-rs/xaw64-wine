@@ -20,19 +20,19 @@ or
 
 ### 2. Make sure if wget is installed
 
-``` bash
+```bash
 pkg install wget
 ```
 
 ### 3. Download xaw64 (Bash script only)
 
-``` bash
+```bash
 cd $HOME && rm -rf ~/xaw64 && wget https://github.com/ar37-rs/xaw64-wine/raw/refs/heads/main/xaw64 && chmod +x ~/xaw64
 ```
 
 ### 4. Install xaw64
 
-``` bash
+```bash
 ~/xaw64 install
 ```
 
@@ -46,19 +46,19 @@ cd $HOME && rm -rf ~/xaw64 && wget https://github.com/ar37-rs/xaw64-wine/raw/ref
 
 #### Enable sdcard for wine D: drive (optional)
 
-``` bash
+```bash
 ~/xaw64 sdcard=true
 ```
 
 #### Start wine in desktop mode on termux terminal
 
-``` bash
+```bash
 ~/xaw64 sd
 ```
 
 #### Quit wine desktop or terminate all wine related process
 
-``` bash
+```bash
 ~/xaw64 qsd
 ```
 
@@ -66,7 +66,7 @@ cd $HOME && rm -rf ~/xaw64 && wget https://github.com/ar37-rs/xaw64-wine/raw/ref
 
 #### Run wine config
 
-``` bash    
+```bash
 ~/xaw64 r winecfg
 ```
 
@@ -76,56 +76,59 @@ cd $HOME && rm -rf ~/xaw64 && wget https://github.com/ar37-rs/xaw64-wine/raw/ref
 ~/xaw64 r regedit
 ```
 
-#### Run any specific *.exe
+#### Run any specific \*.exe
 
-``` bash
+```bash
 ~/xaw64 r app_name.exe
 ```
 
-#### Run any *.exe with any specific path
+#### Run any \*.exe with any specific path
 
-``` bash
+```bash
 cd ~/'.to/Prog Files/app/path' && ~/xaw64 r app_name.exe
 ```
 
 #### Launch GPU Caps (test OpenGL and Vulkan)
 
-``` bash
+```bash
 ~/xaw64 gpucaps
 ```
 
 #### Launch TestD3D (D3D9)
 
-``` bash    
+```bash
 ~/xaw64 testd3d
 ```
 
 #### Launch CubeMap (test EnvMapping D3D9)
 
-``` bash
+```bash
 ~/xaw64 cubemap
 ```
 
 #### Launch SphereMap (test EnvMapping D3D9)
 
-``` bash
+```bash
 ~/xaw64 spheremap
 ```
 
 #### Launch wine in windows desktop mode
 
 ##### configure desktop size like so (or any standard windows screen size)
+
 ```
 ~/xaw64 desk-size=1024x768
 ```
+
 ##### and then simply start using
+
 ```
 ~/xaw64 s
 ```
 
 #### Quit wine or terminate all wine related process
 
-``` bash
+```bash
 ~/xaw64 q
 ```
 
@@ -141,22 +144,22 @@ cd ~/'.to/Prog Files/app/path' && ~/xaw64 r app_name.exe
 > Universal android 9+ with vulkan 1.1+ GPU supported only
 > [(Read more for virgl-angle additional usage from here)](https://github.com/ar37-rs/virgl-angle)
 
-``` bash
+```bash
 ~/xaw64 driver=virpipe
 ```
 
 #### Using virpipe angle driver
 
-``` bash
+```bash
 ~/xaw64 vgl-use=angle
 ```
 
-#### Using virpipe native android driver 
+#### Using virpipe native android driver
 
 > [!NOTE]
 > Less stable might using older version of virgl
 
-``` bash
+```bash
 ~/xaw64 vgl-use=android
 ```
 
@@ -165,31 +168,31 @@ cd ~/'.to/Prog Files/app/path' && ~/xaw64 r app_name.exe
 > [!NOTE]
 > Supports OpenGL 2.1, 3.2, 3.3, 4.1 and 4.3 with COMPAT
 
-``` bash
+```bash
 ~/xaw64 vgl-compat=4.3
 ```
 
 #### Switch back virgl to default COMPAT profile.
 
-``` bash
+```bash
 ~/xaw64 vgl-compat=4.1
 ```
 
 #### Fix virgl color/visual problems on d3d9+ (Direct X) apps/games
 
-``` bash
+```bash
 ~/xaw64 vgl-cfg=d3d
 ```
 
 #### Reconfigure virgl for OpenGL/ES apps/games
 
-``` bash
+```bash
 ~/xaw64 vgl-cfg=gl
 ```
 
 #### Switch back OpenGL driver to default (if any)
 
-``` bash
+```bash
 ~/xaw64 driver=default
 ```
 
@@ -197,44 +200,46 @@ cd ~/'.to/Prog Files/app/path' && ~/xaw64 r app_name.exe
 
 #### Using WineD3D version 3.21
 
-``` bash
+```bash
 ~/xaw64 wined3d=3.21
 ```
-+
-> [!WARNING]
-> for wined3d 3.21 only: changing ```deviceId``` back to default is required if previously changed to something else)
-> ``` bash
-> ~xow64 device=default
-> ```
+
+- > [!WARNING]
+  > for wined3d 3.21 only: changing `deviceId` back to default is required if previously changed to something else)
+  >
+  > ```bash
+  > ~xow64 device=default
+  > ```
 
 #### Using WineD3D version 4.21
 
-``` bash    
+```bash
 ~/xaw64 wined3d=4.21
 ```
 
 #### Using WineD3D version 9.2 (fix graphical glitches for some devices on wine 10.7+, highly recommended for virgl stability and performance)
 
-``` bash
+```bash
 ~/xaw64 wined3d=9.2
 ```
 
 #### Using WineD3D version 10.3 (fix graphical glitches for some devices on wine 10.7+, recommeded for newer games compatibility)
 
-``` bash
+```bash
 ~/xaw64 wined3d=10.3
 ```
 
 #### Switch back using default builtin WineD3D version
 
-``` bash
+```bash
 ~/xaw64 wined3d=default
 ```
 
 ### Direct 3D support for vulkan drivers
-#### Using dxvk-proton (supported on vulkan llvmpipe and any supported GPU driver)  
 
-``` bash
+#### Using dxvk-proton (supported on vulkan llvmpipe and any supported GPU driver)
+
+```bash
 ~/xaw64 vkd3d=true
 ```
 
@@ -246,13 +251,13 @@ cd ~/'.to/Prog Files/app/path' && ~/xaw64 r app_name.exe
 
 #### Using dxvk-v1-proton (support for some legacy devices with vulkan 1.1)
 
-``` bash
+```bash
 ~/xaw64 vkd3d-v1=true
 ```
 
 #### Disable dxvk-proton, dxvk-glasync and dxvk-v1-proton
 
-``` bash
+```bash
 ~/xaw64 vkd3d=false
 ```
 
@@ -260,43 +265,44 @@ cd ~/'.to/Prog Files/app/path' && ~/xaw64 r app_name.exe
 > If experiencing error on some specific vulkan drivers use the older supported version [from here](https://github.com/doitsujin/dxvk) or use modified dxvk version [from here](https://github.com/pythonlover02/DXVK-Sarek)
 
 ---
+
 ## Additional usage
 
-#### Adding any custom environment variable (e.g: disabling ```MMAP32```)
+#### Adding any custom environment variable (e.g: disabling `MMAP32`)
 
-``` bash
+```bash
 ~/xaw64 env-add BOX64_MMAP32=0
 ```
 
 #### Check list of the added custom environment variables
 
-``` bash
+```bash
 ~/xaw64 env-info
 ```
 
 #### Remove the added custom environemnt variable
 
-``` bash
+```bash
 ~/xaw64 env-remove BOX64_MMAP32=0
 ```
 
 #### Reset custom environment variables to default
 
-``` bash
+```bash
 ~/xaw64 env-default
 ```
 
-#### Using custom graphic card deviceId and vendorId, some games require the ```deviceId``` to be available on the system
+#### Using custom graphic card deviceId and vendorId, some games require the `deviceId` to be available on the system
 
 ##### use custom GPU code name (GeForce GTX 950M)
 
-``` bash
+```bash
 ~/xaw64 device=gtx950m
 ```
 
 ##### or (GeForce GTX 980)
 
-``` bash
+```bash
 ~/xaw64 device=gtx980
 ```
 
@@ -306,21 +312,21 @@ cd ~/'.to/Prog Files/app/path' && ~/xaw64 r app_name.exe
 ~/xaw64 device=uhd630
 ```
 
-##### Swich back to default ```deviceId```
+##### Swich back to default `deviceId`
 
-``` bash
+```bash
 ~/xaw64 device=default
 ```
 
 #### Enable winedlloverride for cnc-ddraw
 
-```bash    
+```bash
 ~/xaw64 cnc-ddraw=true
 ```
 
 #### Disable winedlloverride for cnc-ddraw
 
-``` bash
+```bash
 ~/xaw64 cnc-ddraw=false
 ```
 
@@ -332,126 +338,120 @@ cd ~/'.to/Prog Files/app/path' && ~/xaw64 r app_name.exe
 
 #### Re-enable wine debugger
 
-``` bash
+```bash
 ~/xaw64 debug=true
 ```
 
 #### Update box64 to newer version
 
-``` bash
+```bash
 ~/xaw64 update-box64
 ```
 
 #### Update wine
 
-``` bash
+```bash
 ~/xaw64 update-wine
 ```
 
 #### Update angle-android (android 9+ only)
 
-``` bash
+```bash
 ~/xaw64 update-angle
 ```
 
 #### Update virglrenderer (android 10+ only)
 
-``` bash
+```bash
 ~/xaw64 update-virgl
 ```
 
 #### Update patch
 
-``` bash    
+```bash
 ~/xaw64 update-patch
 ```
 
 #### Uninstall (remove) xaw64-wine completely
 
-``` bash
+```bash
 ~/xaw64 remove-all
 ```
 
 > [!NOTE]
-> * Bionic currently a little buggy on some devices, working games tested CMR2, NFS MW 2005 with good performance.
-> * Use ```~/xaw64 r winecfg``` to add /sdcard (or specific path) for more custom drive
 >
-> * Some commands (usage) and drivers might not available yet on xaw64, currently essentials commands are added and available
+> - Bionic currently a little buggy on some devices, working games tested CMR2, NFS MW 2005 with good performance.
+> - Use `~/xaw64 r winecfg` to add /sdcard (or specific path) for more custom drive
+> - Some commands (usage) and drivers might not available yet on xaw64, currently essentials commands are added and available
+> - Use virpipe for some low-end (Mali/PowerVR/etc) GPUs with vulkan 1.1 or use vulkan wrapper for high-end Mali with vulkan 1.3+ GPUs or default native termux drivers such freedreno/KGSL for Adreno 6XX+.
+> - Using virtual controller, install InputBrige
 >
-> * Use virpipe for some low-end (Mali/PowerVR/etc) GPUs with vulkan 1.1 or use vulkan wrapper for high-end Mali with vulkan 1.3+ GPUs or default native termux drivers such freedreno/KGSL for Adreno 6XX+.
-> 
-> * Using virtual controller, install InputBrige
+>   [From here](https://github.com/ar37-rs/xow64-wine/releases/download/latest/InputBridge_v0.1.9.9.apk)
 >
->    [From here](https://github.com/ar37-rs/xow64-wine/releases/download/latest/InputBridge_v0.1.9.9.apk)
+>   and start command in desktop termux terminal
 >
->    and start command in desktop termux terminal
->    ```
->    ~/xaw64 s
->    ```
->    and then `StartIB.cmd` from wine start menu (desktop mode) before launching any game, then open InputBridge app on android device and then start configuring control buttons as need.
+>   ```
+>   ~/xaw64 s
+>   ```
 >
-> * If experiencing any emulation issue for specific app/game
->  
->    try using different version of configurations (especially box64 environment variables) and drivers available above accordingly.
+>   and then `StartIB.cmd` from wine start menu (desktop mode) before launching any game, then open InputBridge app on android device and then start configuring control buttons as need.
 >
-> * If there's problem when installing xaw64, make sure the latest correct termux app version is installed.
+> - If experiencing any emulation issue for specific app/game
+>
+>   try using different version of configurations (especially box64 environment variables) and drivers available above accordingly.
+>
+> - If there's problem when installing xaw64, make sure the latest correct termux app version is installed.
 
 (tested using [termux-app-v0.119.x](https://github.com/termux/termux-app/releases))
 
 ## Addtional guide:
-* Using cnc-ddraw:
 
-    [read more from here](https://github.com/FunkyFr3sh/cnc-ddraw)
+- Using cnc-ddraw:
+
+  [read more from here](https://github.com/FunkyFr3sh/cnc-ddraw)
 
 ## Additional troubleshoot:
-* Fix virgl-angle vulkan support for some devices
 
-   [such encountered on this issue](https://github.com/ar37-rs/virgl-angle/issues/1)
-   ```
-   pkg remove *icd-swrast && pkg install vulkan-loader-generic wget && cd && rm -rf ~/mesa-vulkan-icd-wrapper_25.0.0-1_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/mesa-vulkan-icd-wrapper_25.0.0-1_aarch64.deb && dpkg -i ~/mesa-vulkan-icd-wrapper_25.0.0-1_aarch64.deb
-   ```
-   
-* Fix for some android 12+ devices with [Process completed (signal 9) - ...] issue using adb:
-   ```
-   adb shell "settings put global settings_enable_monitor_phantom_procs false"
-   ```
-   and set max_phantom_processes as well
-   ```
-   adb shell "/system/bin/device_config set_sync_disabled_for_tests persistent"
-   adb shell "/system/bin/device_config put activity_manager max_phantom_processes 2147483647"
-   ```
-   and then restart/reboot device.
+- Fix virgl-angle vulkan support for some devices
+
+  [such encountered on this issue](https://github.com/ar37-rs/virgl-angle/issues/1)
+
+  ```
+  pkg remove *icd-swrast && pkg install vulkan-loader-generic wget && cd && rm -rf ~/mesa-vulkan-icd-wrapper_25.0.0-1_aarch64.deb && wget https://github.com/ar37-rs/virgl-angle/releases/download/latest/mesa-vulkan-icd-wrapper_25.0.0-1_aarch64.deb && dpkg -i ~/mesa-vulkan-icd-wrapper_25.0.0-1_aarch64.deb
+  ```
+
+- Fix for some android 12+ devices with [Process completed (signal 9) - ...] issue using adb:
+  ```
+  adb shell "settings put global settings_enable_monitor_phantom_procs false"
+  ```
+  and set max_phantom_processes as well
+  ```
+  adb shell "/system/bin/device_config set_sync_disabled_for_tests persistent"
+  adb shell "/system/bin/device_config put activity_manager max_phantom_processes 2147483647"
+  ```
+  and then restart/reboot device.
   [read more for more info from here](https://ivonblog.com/en-us/posts/fix-termux-signal9-error/) or [here](https://github.com/termux/termux-app/issues/2366)
 
 # Other links for credits (3rd parties):
-[InputBridge Wiki](https://search.brave.com/search?q=InputBrige%20exagear%20wiki&source=web)
 
-[XinputBridge Wiki](https://github.com/Ilan12346-maya/XinputBridge)
+- [InputBridge Wiki](https://search.brave.com/search?q=InputBrige%20exagear%20wiki&source=web)
 
-[https://www.mesa3d.org
-](https://www.mesa3d.org
-)
-[https://github.com/termux
-](https://github.com/termux
-)
-[https://github.com/termux/termux-x11
-](https://github.com/termux/termux-x11
-) 
-[https://github.com/ptitSeb/box64
-](https://github.com/ptitSeb/box64
-)
-[https://github.com/brunodev85/winlator
-](https://github.com/brunodev85/winlator
-)
-[https://github.com/doitsujin/dxvk
-](https://github.com/doitsujin/dxvk
-)
-[https://gitlab.com/Ph42oN/dxvk-gplasync
-](https://gitlab.com/Ph42oN/dxvk-gplasync
-)
-[https://github.com/HansKristian-Work/vkd3d-proton
-](https://github.com/HansKristian-Work/vkd3d-proton
-)
-[https://github.com/erfan2255/EnvMapping
-](https://github.com/erfan2255/EnvMapping
-)
+- [XinputBridge Wiki](https://github.com/Ilan12346-maya/XinputBridge)
+
+- [https://www.mesa3d.org](https://www.mesa3d.org)
+
+- [https://github.com/termux](https://github.com/termux)
+
+- [https://github.com/termux/termux-x11](https://github.com/termux/termux-x11)
+
+- [https://github.com/ptitSeb/box64](https://github.com/ptitSeb/box64)
+
+- [https://github.com/brunodev85/winlator](https://github.com/brunodev85/winlator)
+
+- [https://github.com/doitsujin/dxvk](https://github.com/doitsujin/dxvk)
+
+- [https://gitlab.com/Ph42oN/dxvk-gplasync](https://gitlab.com/Ph42oN/dxvk-gplasync)
+
+- [https://github.com/HansKristian-Work/vkd3d-proton](https://github.com/HansKristian-Work/vkd3d-proton)
+
+- [https://github.com/erfan2255/EnvMapping](https://github.com/erfan2255/EnvMapping)
